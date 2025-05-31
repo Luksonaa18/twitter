@@ -52,7 +52,7 @@ const SignUp = () => {
             },
           }}
         >
-          <FaXTwitter className="text-blue-600 text-6xl" />
+          <FaXTwitter className=" text-6xl" />
         </motion.div>
       </motion.div>
     );
@@ -108,7 +108,7 @@ const SignUp = () => {
           Don't have an account?{" "}
           <span
             className="text-blue-400 hover:underline cursor-pointer"
-            onClick={() => router.push("/signup")}
+            onClick={() => router.push("/sign-up")}
           >
             Sign up
           </span>

@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
-:root{
-  background-color: black;
+:root {
+  background-color: rgb(0, 0, 0);
+  scrollbar-color: rgb(62, 65, 68) rgb(22, 24, 28);
 }

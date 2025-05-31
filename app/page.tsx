@@ -2,7 +2,7 @@
 import { useRouter } from "next/navigation";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "./firebase/firebase";
-import SignIn from "./sign-in/page";
+import HomePage from "./components/Homepage/page";
 
 export default function Home() {
   const [user, loading] = useAuthState(auth);
@@ -14,7 +14,7 @@ export default function Home() {
   console.log(user);
   return (
     <>
-      <SignIn />
+      <HomePage />
     </>
   );
 }
