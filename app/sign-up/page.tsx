@@ -105,12 +105,12 @@ const SignUp = () => {
         </form>
 
         <div className="mt-6 text-center text-sm text-gray-400">
-          Don't have an account?{" "}
+          Already have an account?{" "}
           <span
             className="text-blue-400 hover:underline cursor-pointer"
-            onClick={() => router.push("/sign-up")}
+            onClick={() => router.push("/sign-in")}
           >
-            Sign up
+            Sign in
           </span>
         </div>
       </div>

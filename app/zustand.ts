@@ -44,7 +44,7 @@ export const usePostStore = create<PostStore>()(
         }),
     }),
     {
-      name: "posts",
+      name: "posts12",
       storage: {
         getItem: (name) => {
           if (typeof window === "undefined") return null;
