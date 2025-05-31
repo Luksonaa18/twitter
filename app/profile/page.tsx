@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   FaArrowLeft,
@@ -10,14 +10,12 @@ import {
   FaEllipsisH,
   FaBell,
   FaEnvelope,
-  FaBookmark,
   FaHeart,
   FaRetweet,
   FaComment,
   FaShare,
   FaCamera,
 } from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6";
 import { useRouter } from "next/navigation";
 
 interface Tweet {
@@ -36,6 +34,21 @@ const Profile = () => {
   const [activeTab, setActiveTab] = useState("posts");
   const [isFollowing, setIsFollowing] = useState(false);
   const router = useRouter();
+  const [profileImage, setProfileImage] = useState<string | null>(null);
+  const [coverImage, setCoverImage] = useState<string | null>(null);
+  const profileInputRef = useRef<HTMLInputElement>(null);
+  const coverInputRef = useRef<HTMLInputElement>(null);
+
+  const handleProfileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) setProfileImage(URL.createObjectURL(file));
+  };
+
+  const handleCoverChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) setCoverImage(URL.createObjectURL(file));
+  };
+
   const [tweets] = useState<Tweet[]>([
     {
       id: 1,
@@ -153,8 +166,9 @@ const Profile = () => {
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               className="p-2 hover:bg-gray-900 rounded-full transition-colors lg:hidden"
+              onClick={() => router.back()}
             >
-              <FaArrowLeft onClick={() => router.back()} />
+              <FaArrowLeft />
             </motion.button>
             <div>
               <h1 className="text-xl font-bold">John Doe</h1>
@@ -174,18 +188,35 @@ const Profile = () => {
       <div className="max-w-2xl mx-auto">
         {/* Cover Image */}
         <motion.div
-          className="h-48 md:h-64 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 relative"
+          className="h-48 md:h-64 relative bg-black"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2 }}
         >
+          {coverImage ? (
+            <img
+              src={coverImage}
+              alt="Cover"
+              className="object-cover w-full h-full"
+            />
+          ) : (
+            <div className="h-full w-full bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600" />
+          )}
           <motion.button
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
+            onClick={() => coverInputRef.current?.click()}
             className="absolute top-4 right-4 p-2 bg-black/50 hover:bg-black/70 rounded-full transition-colors"
           >
             <FaCamera />
           </motion.button>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleCoverChange}
+            ref={coverInputRef}
+            className="hidden"
+          />
         </motion.div>
 
         {/* Profile Info */}
@@ -197,17 +228,34 @@ const Profile = () => {
         >
           <div className="flex justify-between items-start -mt-16 mb-4">
             <div className="relative">
-              <div className="w-24 h-24 md:w-32 md:h-32 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 border-4 border-black flex items-center justify-center text-white text-2xl md:text-3xl font-bold">
-                JD
-              </div>
+              {profileImage ? (
+                <img
+                  src={profileImage}
+                  alt="Profile"
+                  className="w-24 h-24 md:w-32 md:h-32 rounded-full border-4 border-black object-cover"
+                />
+              ) : (
+                <div className="w-24 h-24 md:w-32 md:h-32 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 border-4 border-black flex items-center justify-center text-white text-2xl md:text-3xl font-bold">
+                  JD
+                </div>
+              )}
               <motion.button
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
+                onClick={() => profileInputRef.current?.click()}
                 className="absolute bottom-0 right-0 p-2 bg-black border border-gray-600 hover:bg-gray-900 rounded-full transition-colors"
               >
                 <FaCamera className="text-sm" />
               </motion.button>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleProfileChange}
+                ref={profileInputRef}
+                className="hidden"
+              />
             </div>
+
             <div className="flex space-x-2 mt-16">
               <motion.button
                 whileHover={{ scale: 1.05 }}
